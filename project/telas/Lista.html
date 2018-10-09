@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <title>Lista</title>
+  <style>
+
+      body {
+        font-family: Roboto, sans-serif;
+        margin: 0px;  
+        border: 0 none; 
+      }
+  
+      .container {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+      } 
+  
+      .voltar {
+        position: fixed;
+        background-image: url('left-arrow.png');
+        background-repeat: no-repeat;
+        background-size: 100%;
+        height: 7%;
+        width: 8%;
+        float: center;
+        display: block;
+        border:none;
+        bottom: 0px;
+        left: 45%;
+      }
+
+      .lista {  
+        margin-top: 8vh;  
+        display:flex;
+        justify-content: center;
+        flex-wrap: wrap; 
+        width: 100%;
+        background-color: white;
+      }
+  
+  
+      table {
+        width: 90px;
+      }
+  
+      th {
+        background-color: #4CAF50;
+        color: white;
+      }
+  
+      .topo {
+        position: fixed;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        width: 100%;
+        height: 8%;
+        top: 0%;
+      }
+  
+      select { 
+        text-align-last: center;
+        justify-content: center;
+        text-align: center;
+        vertical-align: center;
+        color: white;
+        width: 100%;
+        height: 100%;
+        font-size: 30px;
+        background-color: #0B6138;
+      }
+  
+      th {
+        font-size: 17px;
+      }
+  
+      option, select{
+        font-size: 22px;
+      }
+  
+      a {
+        text-decoration: none;
+      }  
+  
+      th, td {
+        width: 50%;
+      } 
+
+
+  </style>
+</head>
+    <body>
+      <div class = "container">
+        <div class = "topo">
+          <select class = "cidade">
+            
+          </select>
+        </div>
+      <div class="lista">
+        <table class="w3-table-all w3-centered">
+          <!--exemplo lista final-->
+          <tr class="cabecalho">  <!--CABEÇALHO -->     <th>Bairro</th>
+            <th>Condição</th>
+        
+          </tr>
+        </table>
+      </div>
+      <div class="voltar"></div>  
+    </div>
+    </body>
+    <script type="text/javascript">
+        var domCidade = document.querySelector('select.cidade')
+        var domBairro = document.querySelector('table.w3-table-all')
+        var domCabecalho = document.querySelector('tr.cabecalho')
+        var voltar = document.querySelector('div.voltar')
+
+        voltar.addEventListener('click', evt => (
+            window.location.href = 'Mapa.html'
+        ));
+
+        async function buscar() {
+
+            var request = await fetch('../api/cidade/buscar.php')
+            var response = await request.json()
+            
+            domCidade.innerHTML = "<option>Selecione uma cidade</option>"
+            response.forEach(cidade => {
+                // console.log(cidade)
+                domCidade.innerHTML += "<option value='"+ cidade.idcidade +"'>"+cidade.nome+"</option>"
+            })
+        }
+
+        domCidade.addEventListener('change', async evt => {
+            console.log(domCidade.value)
+            domBairro.innerHTML = ""
+
+            var request = await fetch('../api/bairro/porCidade.php?idcidade='+domCidade.value)
+            domBairro.innerHTML += "<tr><th>Bairro</th><th>Condicao</th></tr>"
+            var aux = "Seguro";
+            var response = await request.json()
+            //domBairro.innerHTML = "<option>Selecione um bairro</option>"
+            response.forEach(bairro => {
+
+                if (bairro.perigo > bairro.seguro && bairro.perigo > (bairro.quantidadeU * 0.2)) {
+                  aux = "Em perigo"
+                } else { aux = "Seguro" }
+                // console.log(cidade)
+                domBairro.innerHTML += "<tr data-nome='"+bairro.nome+"' data-value='"+ bairro.idbairro +"'><td>"+ bairro.nome +"</td><td>" + aux + "</td></tr>"
+            })
+        })
+
+        domBairro.addEventListener('click', event => {
+          let target = event.target.closest("tr")
+           window.location.href = "Bairro.html?nome="+target.dataset.nome+"&idbairro="+target.dataset.value;
+        })
+
+        buscar()
+
+</script>
+</html>
+

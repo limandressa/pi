@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+ <html>
+ <head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <title>Atualizar</title>
+	<style>
+
+    body {
+         margin: 0px;
+    }
+
+	div.tudo {
+       width: 100vw;
+       height: 100vh;
+       background: #6495ED;
+       display: flex;
+       flex-direction: row;
+       justify-content: center;
+       align-items: center;
+    }
+	
+	div.atualizar {
+		display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #4F4F4F;       
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 43px; 
+    } 
+
+    input[type=text], input[type=password], select, button {
+        background:#FFFFFF;
+        width: 100%; 
+        height: 6vh;
+        border: 1px solid #B5B5B5;
+        margin: 0 0 .5em;
+        margin-bottom: 6px;
+        margin-top: 6px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 44px;
+    }
+
+    div.bairro {
+        width: 100%;
+    }
+
+    option {
+        font-size: 17px;
+        outline: none;
+    }
+
+    ::-webkit-input-placeholder {
+        color: #0B6138;
+    }
+
+    button {
+        background: #0B6138;
+        color: #ffffff;
+        padding: 0.3vw;
+        width: 100%; 
+        height: 6vh;
+        border-radius: 3px;
+        border: 1px solid #0B6138;
+        box-shadow: #909090 3px 3px 1px;
+        cursor: pointer;
+    }
+
+    input[type=text], input[type=password], select {
+        background:#FFFFFF;
+        border-color:#ffffff;
+        border-bottom: 4px solid #0B6138;
+    }
+
+    input:focus {
+        border-bottom: 13px solid #0B6138;
+    }
+
+
+    div.solicitacao {
+        margin-top: 4vh;
+        font-weight: 550;
+        font-size: 47px;
+    }
+
+    button.continuar, button.excluir {
+        width: 55%;
+        height: 5vh;
+        margin-bottom: 0px;
+        color: #ffffff;
+
+    }
+
+    button.continuar {
+        background: #0B6138;
+        box-shadow: #087C3E 3px 3px 1px;
+    }    
+
+    button.excluir {
+        background: #E84C3D;
+        box-shadow: #BB1C10 3px 3px 1px;
+        border: 1px solid #BB1C10;
+    }
+
+    div.campos {
+        display: block;
+        margin-top: 5vh;
+        width: 93%;
+        font-family: 'Roboto', sans-serif;
+        font-size: 27px;
+    }
+
+    div.bairro {
+        overflow-x: hidden;
+        margin-top: 5vh;
+        margin-bottom: 3vh;
+    }
+
+    div.voltar {
+        background-image: url('cancel.png');
+        background-repeat: no-repeat;
+        background-size: 100%;
+        height: 7%;
+        width: 8%;
+        float:center;
+        display: block;
+        left: 40%;
+        right: 60%;
+        margin-top: 1.5vh;
+    }
+
+    button:hover {
+         opacity: .8;
+         cursor: pointer;
+    }
+
+    select:hover {
+         opacity: .8;
+         cursor: pointer;
+    }
+
+    a.continuar-mapa {
+        text-decoration: none;
+        color: white;
+        
+    }
+
+    a.voltar-login {
+       color: #043602; 
+       text-decoration: none
+    }
+	
+	</style>
+</head>
+    <body>
+	<div class = "tudo">
+		<div class = "atualizar">
+
+            <div class = "campos">
+                <div class="solicitacao">  Alterar dados de usuário:</div>
+                <div class = "nome">
+                  <input type="text" name="nome" id="nome" placeholder=" Novo nome de usuário">
+                </div>
+                <div class = "senha">
+                    <input type="password" name="senha" placeholder=" Nova senha">
+                </div>
+                <div class = "senha">
+                 <input type="password" name="repetirSenhaNova" placeholder=" Repetir nova senha">
+                </div>                
+                <div class = "senha">
+                 <input type="password" name="senhaAntiga" placeholder=" Senha antiga">
+                </div>
+                <div class = "repetirSenha">
+                    <input type="password" name="repetirSenhaAntiga" placeholder=" Repetir senha aniga">
+                </div>
+                <div class = "bairro">
+                <div class="solicitacao">  Alterar bairro:</div>
+                <select class="cidade">
+                </select>
+                <select class="bairro" name="idbairro">
+                </select> 
+            </div>
+             <center><button class = "continuar">Continuar</button>
+                     <button class = "excluir">Cancelar minha conta</button>
+             </center>
+            </div>
+            <div class = "voltar"><a class="voltar-login" href="login-correto.html"> </a></div>
+	    </div>
+	</div>
+	</body>
+    <script type="text/javascript">
+        var domCidade = document.querySelector('select.cidade')
+        var domBairro = document.querySelector('select.bairro')
+        var excluir = document.querySelector('button.excluir');
+        var continuar = document.querySelector('button.continuar');
+        //var nome = document.querySelector('input[name="nome"]');
+        //var senha = document.querySelector('input[name="senha"]');
+
+        //document.getElementById("nome").value = "Johnny Bravo";
+      //  var nome = document.querySelector('input.nome');
+
+        var voltar = document.querySelector('div.voltar')
+
+        voltar.addEventListener('click', evt => (
+            window.location.href = 'login-correto.html'
+        ));
+
+        async function buscar() {
+
+            var request = await fetch('../api/contato/buscarUsuario.php')
+            var response = await request.json()
+            nome.innerHTML = response.nome;
+
+  
+        }
+
+        buscar()
+
+        excluir.addEventListener('click', ev => {
+            var confirma=confirm("É mesmo?");
+
+            if (confirma == true) {
+
+                var requisicao = fetch("../api/contato/excluir.php", {
+                    method: "DELETE",
+                    body: ""
+                })
+            }
+        })
+
+        continuar.addEventListener('click', async evt => {
+            var domDados = document.querySelectorAll('[name]')
+            var dados = {}
+            domDados.forEach(el => dados[ el.name ] = el.value)
+
+            var requisicao = await fetch("../api/contato/atualizar.php", {
+                method: "POST",
+                body: JSON.stringify(dados)
+            })
+
+            var resposta = await requisicao.text()
+
+            alert(resposta)
+            window.location.href = 'Mapa.html';
+        });
+
+        async function buscar() {
+
+            var request = await fetch('../api/cidade/buscar.php')
+            var response = await request.json()
+        
+            domCidade.innerHTML = "<option>Selecione uma cidade</option>"
+
+            response.forEach(cidade => {
+                
+                domCidade.innerHTML += "<option value='"+ cidade.idcidade +"'>"+cidade.nome+"</option>"
+            })
+        }
+
+        domCidade.addEventListener('change', async evt => {
+            console.log(domCidade.value)
+            var request = await fetch('../api/bairro/porCidade.php?idcidade='+domCidade.value)
+            var response = await request.json()
+            domBairro.innerHTML = "<option>Selecione um bairro</option>"
+            response.forEach(bairro => {
+                domBairro.innerHTML += "<option value='"+ bairro.idbairro +"'>"+bairro.nome+"</option>"
+            })
+        })
+
+        buscar()
+
+
+        
+    </script>
+</html>

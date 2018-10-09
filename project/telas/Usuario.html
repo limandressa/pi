@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <script type="text/javascript" src="Script/mapa.js"></script>
+    <title>Usuário</title>
+
+    <style>
+
+    body {
+
+        margin: 0px; 
+    }
+
+    div, button {
+        font-size: 41px;
+    }
+
+    div.container { 
+        width: 100vw;
+        height: 100vh;
+        background-size: 100vw 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    div.box {
+
+        font-family: 'Roboto', sans-serif;
+        box-shadow: 0 0 12px #696969;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        border-radius: 15px;
+        border: 1px solid #696969; 
+        flex-wrap: wrap;
+        text-align: center;
+    } 
+
+    div.box, button.voltar, div.nomeUser {
+        background-color: white;
+    }
+
+    div.opcoes {
+        width: 87%;
+        margin-bottom: 2vh;   
+    }
+
+    div.user button {
+        width: 87%;
+    }
+
+    div.user {
+        width: 90%;
+        height: 45%;
+        margin-top: 1vh;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    div.opcoes button {
+        background: #0B6138;
+        color: #ffffff;
+        margin-top: 1.5vh;
+        width: 70%; 
+        height: 7.5vh;
+        border-radius: 5px;
+        border: 1px solid #0B6138;
+        box-shadow: 0 0 5px #0B6138;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+    }
+
+    div.opcoes button, button.voltar:hover {
+        opacity: .9;
+        cursor: pointer;
+    }
+
+    div.nomeUser {
+        margin-bottom: 3vh;
+        color: #0B6138;
+        border-bottom-style: ridge;
+        border-color: #95C69D;
+        margin-top: 6vh;
+        width: 60%;
+        height: 4%;
+        font-size: 55px;
+        padding: 1px;
+    }
+
+    button.voltar {
+        background-image: url('left-arrow.png');
+        background-repeat: no-repeat;
+        background-size: 100%;
+        height: 100%;
+        float:center;
+        width: 7%;
+        display: block;
+        left: 60%;
+        right: 40%;
+        font-size: 48px;
+        border:none;
+        margin-top: 1vh;
+    }
+    
+    div.usuario {
+        background-image: url('usuario.png');
+        background-repeat: no-repeat;
+        background-size: 100%;
+        height: 70%;
+        float:center;
+        width: 50%;
+        display: block;
+        left: 40%;
+        right: 60%;
+    }
+
+    a {
+        text-decoration: none;
+        color: white;
+    }
+
+    .botaoVoltar {
+        width: 100%;
+        height: 10%;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .voltar a {
+        color: #0B6138;
+    }
+
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="box">
+            <div class = "nomeUser"></div>
+            <div class = "user">
+                <div class = "usuario"></div>
+            </div>
+            <div class = "opcoes">
+                <div class = "alterar"><button><a href="Atualizar.html">Alterar meu cadastro</a></button></div>
+                <div class = "bairro"><button>Meu bairro</button></div>
+                <div class = "botaoSeguro"><button>Sair</button></div>                 
+            </div>
+            <div class = "botaoVoltar"><button class = "voltar"></button></div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+    nome = document.querySelector('div.nomeUser');
+    meubairro = document.querySelector('div.bairro');
+
+        async function buscar() {
+
+            var request = await fetch('../api/contato/buscarUsuario.php')
+            var response = await request.json()
+            nome.innerHTML = "Olá, "+response.nome;
+
+            meubairro.addEventListener('click', ev => {
+                window.location.href = "Bairro.html?nome="+response.nomeBairro+"&idbairro="+response.bairro_idbairro;
+            })
+  
+        }
+
+        buscar()
+//       async function nomear() {
+//
+//
+//            var requisicao = await fetch("../api/bairro/classificar.php")
+//
+//            var response = await requisicao.json()
+//            nome.innerHTML = response.nome;
+//        }
+//
+//        nomear()
+
+    </script>
+</body>
+</html>

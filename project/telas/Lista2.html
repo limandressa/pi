@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <title>Lista</title>
+  <style>
+
+    body {
+     font-family: Roboto, sans-serif;
+     margin: 0px;  
+     border: 0 none; 
+    }
+  
+    .container {
+     width: 100%;
+     display: flex;
+     flex-wrap: wrap;
+    } 
+  
+   .voltar {
+     background-color: white;
+     position: fixed;
+     bottom: 0%;
+     width: 100%;
+     float:center;
+     height: 7vh;
+     color: #0B6138;
+     font-size: 17px;
+     border: none;
+     cursor: pointer;
+   }
+  
+   .lista {  
+     margin-top: 8vh;  
+     display:flex;
+     justify-content: center;
+     flex-wrap: wrap; 
+     width: 100%;
+     background-color: white;
+    }
+  
+  
+   table {
+     width: 90px;
+   }
+  
+   th {
+     background-color: #4CAF50;
+     color: white;
+   }
+  
+  .topo {
+     position: fixed;
+     display:flex;
+     justify-content: center;
+     align-items: center;
+     flex-wrap: wrap;
+     width: 100%;
+     height: 8%;
+     top: 0%;
+  }
+  
+  select { 
+     text-align-last: center;
+     justify-content: center;
+     text-align: center;
+     vertical-align: center;
+     color: white;
+     width: 100%;
+     height: 100%;
+     font-size: 30px;
+     background-color: #0B6138;
+  }
+  
+  th {
+     font-size: 17px;
+  }
+  
+  option, select{
+     font-size: 22px;
+  }
+  
+  button:hover {
+     opacity: 0.5;
+  }
+  
+  option:hover {
+     opacity: 0.8;
+  }
+  
+  a {
+     text-decoration: none;
+  }  
+  
+  th, td {
+     width: 50%;
+  } 
+  
+  td.alarmante {
+     color: red;
+  }
+
+</style>
+</head>
+<body>
+  <div class = "container">
+    <div class = "topo">
+      <select class = "cidade">
+        
+      </select>
+    </div>
+  <div class="lista">
+    <table class="w3-table-all w3-centered">
+      <!--exemplo lista final-->
+      <tr class="cabecalho">  <!-- CABEÇALHO -->
+        <th>Bairro</th>
+        <th>Condição</th>
+      </tr>
+    </table>
+  </div>
+
+  <button class="voltar"><a href="Mapa.html">◄ voltar</a></button>   
+</div>
+</body>
+<script type="text/javascript">
+        var domCidade = document.querySelector('select.cidade')
+        var domBairro = document.querySelector('table.w3-table-all')
+        var domCabecalho = document.querySelector('tr.cabecalho')
+
+        async function buscar() {
+
+            var request = await fetch('../api/cidade/buscar.php')
+            var response = await request.json()
+            
+            domCidade.innerHTML = "<option>Selecione uma cidade</option>"
+            response.forEach(cidade => {
+                // console.log(cidade)
+                domCidade.innerHTML += "<option value='"+ cidade.idcidade +"'>"+cidade.nome+"</option>"
+            })
+        }
+
+        domCidade.addEventListener('change', async evt => {
+            console.log(domCidade.value)
+
+            var request = await fetch('../api/bairro/porCidade.php?idcidade='+domCidade.value)
+            domBairro.innerHTML = ""
+            domBairro.innerHTML += "<tr><th>Bairro</th><th>Condicao</th></tr>"
+
+            var response = await request.json()
+            //domBairro.innerHTML = "<option>Selecione um bairro</option>"
+            response.forEach(bairro => {
+                // console.log(cidade)
+                domBairro.innerHTML += "<tr value='"+ bairro.idbairro +"'><td>"+ bairro.nome +"</td><td>Seguro</td></tr>"
+            })
+        })
+
+        domBairro.addEventListener('click', evt => {
+            window.open("Bairro.php?nome="+event.target.innerHTML);
+        })
+
+        buscar()
+
+</script>
+</html>

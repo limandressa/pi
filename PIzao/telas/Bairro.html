@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <script type="text/javascript" src="Script/mapa.js"></script>
+    <title>Bairro</title>
+
+    <style>
+
+    body {
+
+        margin: 0px; 
+    }
+
+    div, button {
+        font-size: 41px;
+    }
+
+    div.container { 
+        width: 100vw;
+        height: 100vh;
+        background-size: 100vw 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    div.box {
+
+        font-family: 'Roboto', sans-serif;
+        box-shadow: 0 0 12px #696969;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        border-radius: 15px;
+        border: 1px solid #696969; 
+        flex-wrap: wrap;
+        text-align: center;
+    } 
+
+    div.box, button.voltar, div.condicao button, div.nomeBairro {
+        background-color: white;
+    }
+
+    div.opcoes {
+        width: 100%;
+        margin-bottom: 1vh;   
+    }
+
+    div.bairro button {
+        width: 87%;
+    }
+
+    div.bairro {
+        width: 90%;
+        height: 45%;
+        margin-top: 0vh;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    div.opcoes button {
+        background: #0B6138;
+        color: #ffffff;
+        margin-top: 1.5vh;
+        width: 87%; 
+        height: 6.5vh;
+        border-radius: 5px;
+        border: 1px solid #0B6138;
+        box-shadow: 0 0 5px #0B6138;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+    }
+
+    div.opcoes button.destaque {
+        height: 8vh;
+    }
+
+    div.nomeBairro {
+        color: #0B6138;
+        border-bottom-style: ridge;
+        border-color: #95C69D;
+        margin-top: 6vh;
+        width: 70%;
+        height: 4%;
+        font-size: 55px;
+        padding: 1px;
+    }
+
+    div.voltar {
+        background-image: url('left-arrow.png');
+        background-repeat: no-repeat;
+        background-size: 100%;
+        height: 6%;
+        float:center;
+        width: 7%;
+        display: block;
+        left: 60%;
+        right: 40%;
+        font-size: 48px;
+        border:none;
+        margin-top: 1vh;
+    }
+    
+    div.marcador {
+        background-image: url('marcador.png');
+        background-repeat: no-repeat;
+        background-size: 100%;
+        height: 75%;
+        float:center;
+        width: 57%;
+        display: block;
+ 
+    }
+    
+    div.condicao {
+        width: 55%;
+    }    
+    
+    div.condicao button {
+        width: 100%; 
+        height: 5.5vh;
+        border-radius: 5px;
+        border: 1px solid #0B6138;
+        box-shadow: 0 0 5px #0B6138;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+    }
+
+    a {
+        text-decoration: none;
+        color: white;
+    }
+    
+    a.perigo, a.seguro {
+        font-weight: 600;
+    }
+    
+    a.perigo, a.seguro {
+        color: #0B6138;
+        background-color: white;
+    }
+    
+    .voltar a {
+        color: #0B6138;
+    }
+
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="box">
+            <div class = "nomeBairro"></div>
+            <div class = "bairro">
+                <div class = "marcador"></div>
+                <div class = "condicao"><button>Encontra-se<b class="condicaoBairro"> </b></button></div>
+            </div>
+            <div class = "opcoes">
+                <div class = "botaoPerigo" id="perigo"><button>Classificar esse bairro como em <a class="perigo"> PERIGO</a></button></div>
+                <div class = "botaoSeguro" id="seguro"><button>Classificar esse bairro como <a class="seguro">SEGURO</a></button></div>
+                <div class = "botao3"><button id="bt1"><a href="Orientacoes.html"> Orientações: o que fazer em caso de perigo?</a></button></div>
+                <div class = "botao4"><button id="bt2"><a href="Lista.html"> Outro bairros</a></button></div>                  
+            </div>
+            <div class = "voltar"></div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        nome = document.querySelector('div.nomeBairro');
+        condicao = document.querySelector('b.condicaoBairro');
+        var voltar = document.querySelector('div.voltar')
+
+        voltar.addEventListener('click', evt => (
+            window.location.href = 'Mapa.html'
+        ));
+
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var c = url.searchParams.get("nome");
+        nome.innerHTML = c;
+        condicao = document.querySelector('b.condicaoBairro');
+
+        var id = url.searchParams.get("idbairro");
+
+        async function classificar() {
+
+            var requisicao = await fetch("../api/bairro/classificar.php", {
+                method: "POST",
+                body: JSON.stringify({
+                    bairro_idbairro: id
+                })
+            })
+
+            var response = await requisicao.json()
+
+            if (response.perigo > response.seguro && response.perigo > (response.quantidadeU * 0.2)) {
+                condicao.innerHTML = " em perigo."  
+            } else {
+                condicao.innerHTML = " seguro." 
+            }
+        }
+
+        classificar()
+
+        var perigo = document.querySelector('div.botaoPerigo');
+        var seguro = document.querySelector('div.botaoSeguro');
+
+        async function esconder() {
+
+            var request = await fetch('../api/contato/buscarUsuario.php')
+            var response = await request.json()
+
+            if (response.bairro_idbairro != id) {
+
+                document.getElementById("perigo").style.display = "none";
+                document.getElementById("seguro").style.display = "none";
+                document.getElementById("bt1").classList.add('destaque')
+                document.getElementById("bt2").classList.add('destaque')
+            }
+  
+        }
+
+        esconder()
+
+
+        perigo.addEventListener('click', async ev => {
+            var requisicao = await fetch("../api/contato/inserirClass.php", {
+                method: "POST",
+                body: JSON.stringify({
+                    valor: 1,
+                    bairro_idbairro: id
+                })
+            })
+
+            var resposta = await requisicao.json(); 
+
+            alert(resposta.testClick);
+        })
+
+        seguro.addEventListener('click', async ev => {
+            var requisicao = await fetch("../api/contato/inserirClass.php", {
+                method: "POST",
+                body: JSON.stringify({
+                    valor: 0,
+                    bairro_idbairro: id
+                })
+            })
+
+            var resposta = await requisicao.json(); 
+
+            alert(resposta.testClick);
+
+        })
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mapa</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  </script>
+  <style>
+
+  body {
+    margin: 0;
+  }
+
+  .dropdown {
+    height: 10vh;
+    width: 100%;
+  }
+
+  .dropbtn {
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    color: #0B6138;
+    padding: 16px;
+    font-size: 25px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .dropbtn:hover, .dropbtn:focus {
+    background-color: white;
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-content {
+    width: 100%;
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  .dropbtn, .dropdown-content a {
+    font-size: 25px;
+    font-family: 'Roboto';
+    justify-content: center;
+    text-align: center;
+  }
+
+  a {
+    text-decoration: none;
+    color: #043602;
+  }
+
+  .dropdown-content a {
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+    color: #0B6138;
+    height:33%;
+    text-decoration: none;
+    display: block;
+  }
+
+  .show {display:block;}
+
+  .meuLabel {
+    text-shadow: yellow 0.1em 0.1em 0.2em
+  }
+
+  .labelClass {
+  width: 50px; height: 20px;
+  color: white;
+  text-align: center;
+  line-height: 20px;
+  text-shadow: black 0.1em 0.1em 0.2em;
+  font-weight: bold;
+  font-size: 14px;
+  }
+
+  /*-------------------------------------------------------*/
+  #map {
+    height: 90vh;
+    width: 100%;
+  }
+
+</style>
+</head>
+<body>
+  <div class="dropdown">
+    <button onclick="myFunction()" class="dropbtn">▼</button>
+    <div id="myDropdown" class="dropdown-content">
+      <a href="Lista.html">BAIRROS E CIDADES</a>
+      <a href="Orientacoes.html">ORIENTAÇÕES</a>
+      <a href="usuario.html">USUÁRIO</a>
+    </div>
+  </div>
+  <div id="map"></div>
+  <script src="Script/check-login.js"></script>
+  <script>
+
+    // ------------------------------------------------------------------------------
+    /* When the user clicks on the button, 
+    toggle between hiding and showing the dropdown content */
+    function myFunction() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+      if (!event.target.matches('.dropbtn')) {
+
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+    // ------------------------------------------------------------------------------
+
+var latRef = 0.0;
+var nomeBairro = ""; 
+
+function initMap() {
+  var uluru = {lat: -26.952, lng: -48.639};
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 12,
+    mapTypeId: google.maps.MapTypeId.SATELLITE,
+    disableDefaultUI: true,
+    center: uluru
+  });
+
+  var pinIcon2 = new google.maps.MarkerImage(
+    "marcadorverde.png", //
+    null, /* size is determined at runtime */
+    null, /* origin is 0,0 */
+    null, /* anchor is bottom center of the scaled image */
+    new google.maps.Size(60, 58)
+    );
+
+  var pinIcon = new google.maps.MarkerImage(
+    "marcadorvermelho.png",
+    null, /* size is determined at runtime */
+    null, /* origin is 0,0 */
+    null, /* anchor is bottom center of the scaled image */
+    new google.maps.Size(60, 58)
+    );
+
+  var collection = new Array();
+  var aux = pinIcon2;
+  var i = 1;
+
+  async function buscar() {
+
+    var request = await fetch('../api/bairro/buscar.php')
+    var response = await request.json()
+
+    response.forEach(marcador => {
+        // console.log(marcador)
+
+        if (marcador.perigo > marcador.seguro && marcador.perigo > (marcador.quantidadeU * 0.2)) {
+          aux = pinIcon;  
+        } else {
+          aux = pinIcon2;
+        }
+
+
+        collection[i] = new google.maps.Marker({ //-----
+          position: {lat: parseFloat(marcador.latitude), lng: parseFloat(marcador.longitude)}, 
+          icon: aux,
+          label: { 
+            class: "labelClass",
+            text: marcador.nome,
+            color: "#FFFFFF",
+            fontSize: "17px",
+            fontWeight: "bold",
+            idbairro: marcador.idbairro
+          },  
+          map: map
+        }); 
+        //-----
+        i++; 
+
+        aux = pinIcon2;
+
+    })
+
+
+    for(var a = 1; a < collection.length; a += 1){
+
+      google.maps.event.addListener(collection[a], "click", function (event) {
+        latRef = this.position.lat();
+
+        for(var b = 1; b < collection.length; b += 1){
+
+          if (latRef == collection[b].position.lat()) {
+            nomeBairro = collection[b].label.text;
+            idbairro = collection[b].label.idbairro;
+          }
+        }
+
+        window.location.href = "Bairro.html?nome="+nomeBairro+"&idbairro="+idbairro;
+      });
+    }   
+  }
+
+  buscar()
+
+}    
+
+</script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKL28-9n4Uds5TJJlxGcDBlSAFDgccOKM&callback=initMap">
+  </script>
+</body>
+</html>

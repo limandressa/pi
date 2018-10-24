@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <title>Login</title>
+
+    <style>
+
+    div.container { 
+         width: 100vw;
+         height: 100vh;
+         flex-wrap: wrap;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+    }
+
+    div.box { 
+        top: 0%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 78%;
+        background: #fff;
+        font-size: 30px;
+        flex-wrap: wrap;
+    } 
+
+    div.logo {
+        margin-top: 8vh;
+        background-image: url('logo.png');
+        height: 30%;
+        width: 43%;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        float:center;
+        display: block;
+        left: 40%;
+        right: 60%;
+        bottom: 0;
+    }
+
+    .login {
+        top: 0vh;
+        bottom: 3vh;
+        float: center;
+        width: 93%;
+        height: 45%
+    }
+
+    div.cadastrar, input, .entrar {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 43px;
+    }
+
+    input[type=text], input[type=password] {
+        border: 1px solid white;
+        border-radius: 3px;
+        background:#FFFFFF;
+        border-color:#ffffff;
+        border-bottom: 4px solid #0B6138;
+        width: 100%; 
+        height: 6vh;
+        margin: 0 0 .5em;
+    }
+
+
+    body {
+       margin: 0px;
+    }
+
+    ::-webkit-input-placeholder {
+        color: #0B6138;
+    }
+
+    .entrar {
+        margin-top: 1vh;
+        background: #0B6138;
+        color: #ffffff;
+        padding: 0.3vw;
+        width: 100%; 
+        height: 6vh;
+        border-radius: 3px;
+        border: 1px solid #0B6138;
+        box-shadow: #909090 3px 3px 1px;
+        cursor: pointer;
+    }
+
+    div.cadastrar {
+        
+        width: 100%;
+        height: 10%;
+        color: #043602;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: underline
+    }
+
+    div.cadastrar:hover {
+        border: 1px solid black;
+        opacity: .8;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .entrar:hover {
+         opacity: .8;
+    }
+
+    a {
+        text-decoration: none;
+        color: #043602;
+    }
+
+ </style>
+ </head>
+ <body>
+    <div class="container">
+        <div class="box">
+        <div class = "logo"></div>  
+
+            <form class = "login" method="POST" action="../api/login.php">
+                <div class = "email">
+                    <input type="text" name="email" id="email" placeholder=" E-mail de usuário">
+                </div>
+                <div class = "senha">
+                    <input type="password" name="senha" id="senha" placeholder=" Senha">
+                </div>
+                    <input class = "entrar" type="submit" value="Entrar" id="entrar" name="entrar"></input> 
+                
+            </form>
+            
+        </div>  
+        <div class = "cadastrar"> <a href="Cadastro.html"> Cadastrar-se </a></div>
+    </div>
+ </body>
+ </html>

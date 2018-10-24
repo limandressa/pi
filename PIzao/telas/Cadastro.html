@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+ <html>
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet"/>
+    <title>Cadastro</title>
+	<style>
+
+    body {
+        margin: 0px;
+    }
+
+	div.tudo {
+        width: 100vw;
+        height: 100vh;
+        background: #6495ED;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+	
+	div.cadastro {
+		display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #4F4F4F;       
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 17px; 
+    } 
+
+    input[type=text], input[type=password], select, button {
+        background:#FFFFFF;
+        width: 100%; 
+        height: 6vh;
+        border: 1px solid #B5B5B5;
+        margin: 0 0 .5em;
+        margin-bottom: 6px;
+        margin-top: 6px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 17px;
+    }
+
+    div.bairro {
+        width: 100%;
+    }
+
+    option {
+        font-size: 17px;
+        outline: none;
+    }
+
+    ::-webkit-input-placeholder {
+        color: #0B6138;
+    }
+
+    button {
+        background: #0B6138;
+        color: #ffffff;
+        padding: 0.3vw;
+        width: 100%; 
+        height: 6vh;
+        border-radius: 3px;
+        border: 1px solid #0B6138;
+        box-shadow: #909090 3px 3px 1px;
+        cursor: pointer;
+    }
+
+    input[type=text], input[type=password], select {
+        background:#FFFFFF;
+        border-color:#ffffff;
+        border-bottom: 1px solid #0B6138;
+    }
+
+
+    div.solicitacao {
+        margin-top: 4vh;
+        font-weight: 550;
+        font-size: 17px;
+    }
+
+    button.continuar {
+        box-shadow: #909090 1px 1px 1px;
+        width: 100%;
+        height: 7vh;
+        margin-top: 1vh;
+        margin-bottom: 0px;
+        background: #0B6138;
+        color: #ffffff;
+    }
+
+    div.campos {
+        margin-top: 5vh;
+        width: 93%;
+        font-family: 'Roboto', sans-serif;
+        font-size: 27px;
+    }
+
+    div.bairro {
+        overflow-x: hidden;
+        margin-top: 1vh;
+        margin-bottom: 4vh;
+    }
+
+    div.voltar {
+        background-image: url('left-arrow.png');
+        background-repeat: no-repeat;
+        background-size: 100%;
+        height: 7%;
+        float:center;
+        width: 8%;
+        display: block;
+        left: 40%;
+        right: 60%;
+    }
+
+    button:hover {
+        opacity: .8;
+        cursor: pointer;
+    }
+
+    select:hover {
+        opacity: .8;
+        cursor: pointer;
+    }
+
+    input:focus, select:focus {
+        border-bottom: 3px solid #0B6138;
+    }
+
+    a.voltar-login {
+       color: #043602; 
+       text-decoration: none;
+    }
+
+    .swal-wide {
+    width:90% !important;
+    font-size: 2rem;
+    }
+	
+	</style>
+</head>
+    <body>
+	<div class = "tudo">
+		<div class = "cadastro">
+
+            <div class = "campos">
+                <div class="solicitacao">  Dados de usuário:</div>
+                <div class = "nome">
+                  <input type="text" name="email" placeholder=" E-mail de usuário">
+                </div>
+                <div class = "nome">
+                    <input type="text" name="nome" placeholder=" Nome do usuário">
+                </div>
+                <div class = "senha">
+                 <input type="password" name="senha" placeholder=" Senha">
+                </div>
+                <div class = "repetirSenha">
+                    <input type="password" name="repetirSenha" placeholder=" Repetir senha">
+                </div>
+                <div class = "bairro">
+                <div class="solicitacao">  Bairro:</div>
+                <select class="cidade">
+                </select>
+                <select class="bairro" name="idbairro">
+                </select> 
+            </div>
+            <button class = "continuar" id="testeSWAL">Continuar</button>
+            </div>
+            <div class = "voltar"></div>
+	    </div>
+	</div>
+	</body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://unpkg.com/sweetalert2@7.17.0/dist/sweetalert2.all.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        var domCidade = document.querySelector('select.cidade')
+        var domBairro = document.querySelector('select.bairro')
+        var domBtContinuar = document.querySelector('button.continuar')
+        var voltar = document.querySelector('div.voltar')
+
+        voltar.addEventListener('click', evt => (
+            window.location.href = 'login-correto.html'
+        ));
+
+                    //swal({
+                    //    title: "Deleted!",
+                    //    text: "Your row has been deleted.",
+                    //    type: "success",
+                    //    timer: 2000,
+                    //    showConfirmButton: false
+                    //});
+
+                    //swal({
+                    //    title: 'Auto close alert!',
+                    //    text: 'I will close in 2 seconds.',
+                    //    timer: 1500,
+                    //    buttons: false
+                    //})
+
+        function TestSweetAlert(){
+            swal({
+               title: 'Titulo',
+               text: "Mensagem",
+               content: true,
+               icon: "success",
+               className: 'swal-wide',
+               timer: 2100,
+               buttons: false
+           });
+        };
+
+        $('#testeSWAL').on("click",TestSweetAlert);
+
+        domBtContinuar.addEventListener('click', async evt => {
+     
+            var domDados = document.querySelectorAll('[name]')
+            var dados = {}
+            domDados.forEach(el => dados[ el.name ] = el.value)
+
+            if (dados['senha'] != dados['repetirSenha']) {
+                alert("A senha deve ser escrita corretamente")
+            }  else {
+
+                    //alert(dados['senha'].lenght)
+
+                    var requisicao = await fetch("../api/contato/inserir.php", {
+                        method: "PUT",
+                        body: JSON.stringify(dados)
+                    })
+    
+                    var resposta = await requisicao.text()
+    
+                    //swal("Inserido", "success");
+
+
+    
+                    //window.location.href = 'Mapa.html'
+    
+                    //alert(resposta)           
+            }
+        });
+
+        async function buscar() {
+
+            var request = await fetch('../api/cidade/buscar.php')
+            var response = await request.json()
+        
+            domCidade.innerHTML = "<option>Selecione uma cidade</option>"
+
+            response.forEach(cidade => {
+                
+                domCidade.innerHTML += "<option value='"+ cidade.idcidade +"'>"+cidade.nome+"</option>"
+            })
+        }
+
+        domCidade.addEventListener('change', async evt => {
+            console.log(domCidade.value)
+
+            var request = await fetch('../api/bairro/porCidade.php?idcidade='+domCidade.value)
+            var response = await request.json()
+            domBairro.innerHTML = "<option>Selecione um bairro</option>"
+
+            response.forEach(bairro => {
+                // console.log(cidade)
+                domBairro.innerHTML += "<option value='"+ bairro.idbairro +"'>"+bairro.nome+"</option>"
+            })
+        })
+
+        buscar()
+   </script>
+</html>

@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <script type="text/javascript" src="Script/mapa.js"></script>
+    <style type="text/css">
+        * {
+            font-family: Roboto
+        }
+    </style>
     <title>Bairro</title>
 
     <style>
@@ -15,7 +21,7 @@
     }
 
     div, button {
-        font-size: 41px;
+        font-size: 15px;
     }
 
     div.container { 
@@ -30,14 +36,12 @@
     div.box {
 
         font-family: 'Roboto', sans-serif;
-        box-shadow: 0 0 12px #696969;
         display: flex;
         align-items: center;
         justify-content: center;
         width: 100%;
         height: 100%;
         border-radius: 15px;
-        border: 1px solid #696969; 
         flex-wrap: wrap;
         text-align: center;
     } 
@@ -71,10 +75,10 @@
         color: #ffffff;
         margin-top: 1.5vh;
         width: 87%; 
-        height: 6.5vh;
+        height: 7vh;
         border-radius: 5px;
         border: 1px solid #0B6138;
-        box-shadow: 0 0 5px #0B6138;
+        box-shadow: 0 0 2px #0B6138;
         font-family: 'Roboto', sans-serif;
         font-weight: 400;
     }
@@ -90,7 +94,7 @@
         margin-top: 6vh;
         width: 70%;
         height: 4%;
-        font-size: 55px;
+        font-size: 22px;
         padding: 1px;
     }
 
@@ -128,8 +132,8 @@
         width: 100%; 
         height: 5.5vh;
         border-radius: 5px;
-        border: 1px solid #0B6138;
-        box-shadow: 0 0 5px #0B6138;
+        border: 0.5px solid #0B6138;
+        box-shadow: 0 0 2px #0B6138;
         font-family: 'Roboto', sans-serif;
         font-weight: 400;
     }
@@ -171,6 +175,7 @@
             <div class = "voltar"></div>
         </div>
     </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript">
 
         nome = document.querySelector('div.nomeBairro');
@@ -241,7 +246,27 @@
 
             var resposta = await requisicao.json(); 
 
-            alert(resposta.testClick);
+            //alert(resposta.testClick);
+
+            if (resposta.testClick > 0) {
+                swal({
+                   title: 'Seu alerta fica registrado por um dia.',
+                   text: "Volte amanhã.",
+                   content: true,
+                   icon: "warning",
+                   timer: 2100,
+                   buttons: false
+                });
+            } else {
+                swal({
+                   title: '',
+                   text: "Pronto!",
+                   content: true,
+                   icon: "sucess",
+                   timer: 2100,
+                   buttons: false
+                });
+            }
         })
 
         seguro.addEventListener('click', async ev => {
@@ -255,7 +280,25 @@
 
             var resposta = await requisicao.json(); 
 
-            alert(resposta.testClick);
+            if (resposta.testClick > 0) {
+                swal({
+                   title: 'Seu alerta fica registrado por um dia.',
+                   text: "Volte amanhã.",
+                   content: true,
+                   icon: "warning",
+                   timer: 2100,
+                   buttons: false
+                });
+            } else {
+                swal({
+                   title: 'Pronto!',
+                   text: "",
+                   content: true,
+                   icon: "sucess",
+                   timer: 2100,
+                   buttons: false
+                });
+            }
 
         })
 

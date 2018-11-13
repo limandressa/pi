@@ -35,7 +35,12 @@ if (!$_SESSION['login']) die("não está logado");
 	$count1 = $mdTeste1->rowCount();
 	$res1 = $mdTeste1->fetch(PDO::FETCH_ASSOC);
 
-	if ($res['qtd'] > 0 && $res1['qtd'] < 0) {
+	echo json_encode([
+		"testBairro" => (int)$res['qtd'],
+		"testClick" => (int)$res1['qtd']
+	]);
+	
+	if ($res['qtd'] > 0 && $res1['qtd'] == 0) {
 
  		$md = $bd->prepare("INSERT INTO classificacao(bairro_idbairro, valor, data, usuario_email) VALUES (:bairro_idbairro, :valor, NOW(), :email)");	
  			$md->execute([	
@@ -46,10 +51,7 @@ if (!$_SESSION['login']) die("não está logado");
  		]);
  	}
  
-	echo json_encode([
-		"testBairro" => (bool)$res['qtd'],
-		"testClick" => (int)$res2['qtd']
-	]);
+
  
  } catch(Exception $e) {
      die("erro com o servidor: " . $e->getMessage());

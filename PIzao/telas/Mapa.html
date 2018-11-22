@@ -91,6 +91,17 @@
     width: 100%;
   }
 
+  .labels {
+  width: 150px; height: 20px;
+  color: white;
+  text-align: center;
+  line-height: 20px;
+  text-shadow: black 0.1em 0.1em 0.2em;
+  font-weight: bold;
+  font-size: 14px;
+  }
+
+
 </style>
 </head>
 <body>
@@ -104,6 +115,10 @@
     </div>
   </div>
   <div id="map"></div>
+  <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKL28-9n4Uds5TJJlxGcDBlSAFDgccOKM&callback=initMap"></script>
+
+  <script defer src="https://cdn.sobekrepository.org/includes/gmaps-markerwithlabel/1.9.1/gmaps-markerwithlabel-1.9.1.min.js"></script>
+
   <script src="Script/check-login.js"></script>
   <script>
 
@@ -155,7 +170,7 @@
       "marcadorverde.png", //
       null, /* size is determined at runtime */
       null, /* origin is 0,0 */
-      null, /* anchor is bottom center of the scaled image */
+      new google.maps.Point(25,50), /* anchor is bottom center of the scaled image */
       new google.maps.Size(60, 58)
       );
   
@@ -163,7 +178,7 @@
       "marcadorvermelho.png",
       null, /* size is determined at runtime */
       null, /* origin is 0,0 */
-      null, /* anchor is bottom center of the scaled image */
+      new google.maps.Point(25,50), /* anchor is bottom center of the scaled image */
       new google.maps.Size(60, 58)
       );
   
@@ -185,20 +200,34 @@
             aux = pinIcon2;
           }
   
-  
-          collection[i] = new google.maps.Marker({ //-----
-            position: {lat: parseFloat(marcador.latitude), lng: parseFloat(marcador.longitude)}, 
-            icon: aux,
-            label: { 
-              class: "labelClass",
-              text: marcador.nome,
-              color: "#FFFFFF",
-              fontSize: "17px",
-              fontWeight: "bold",
-              idbairro: marcador.idbairro
-            },  
-            map: map
-          }); 
+          //collection[i] = new google.maps.Marker({ //-----
+          //  position: {lat: parseFloat(marcador.latitude), lng: parseFloat(marcador.longitude)}, 
+          //  icon: aux,
+          //  label: { 
+          //    class: "labels",
+          //    text: marcador.nome,
+          //    color: "#FFFFFF",
+          //    fontSize: "17px",
+          //    fontWeight: "bold",
+          //    idbairro: marcador.idbairro
+          //  },  
+          //  map: map
+          //}); 
+
+            collection[i] = new MarkerWithLabel({
+                map: map,
+                position: {lat: parseFloat(marcador.latitude), lng: parseFloat(marcador.longitude)},
+                icon: aux,
+                labelContent: marcador.nome,
+                labelAnchor: new google.maps.Point(70, -8),
+                labelClass: "labels", 
+                idbairro: marcador.idbairro,// the CSS class for the label
+                nomeBairro: marcador.nome,
+                labelInBackground: true
+            });
+
+
+
           //-----
           i++; 
   
@@ -215,8 +244,8 @@
           for(var b = 1; b < collection.length; b += 1){
   
             if (latRef == collection[b].position.lat()) {
-              nomeBairro = collection[b].label.text;
-              idbairro = collection[b].label.idbairro;
+              nomeBairro = collection[b].nomeBairro;
+              idbairro = collection[b].idbairro;
             }
           }
   
@@ -230,8 +259,5 @@
   }    
 
 </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKL28-9n4Uds5TJJlxGcDBlSAFDgccOKM&callback=initMap">
-  </script>
 </body>
 </html>

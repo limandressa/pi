@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <title>Atualizar</title>
+    <style type="text/css">
+        * {
+            font-family: Roboto
+        }
+    </style>
 	<style>
 
     body {
@@ -124,7 +129,7 @@
     }
 
     div.voltar {
-        background-image: url('cancel.png');
+        background-image: url('ibagens/cancel.png');
         background-repeat: no-repeat;
         background-size: 100%;
         height: 5%;
@@ -133,22 +138,6 @@
         display: block;
         left: 40%;
         right: 60%;
-    }
-
-    button:hover {
-         opacity: .8;
-         cursor: pointer;
-    }
-
-    select:hover {
-         opacity: .8;
-         cursor: pointer;
-    }
-
-    a.continuar-mapa {
-        text-decoration: none;
-        color: white;
-        
     }
 
     a.voltar-login {
@@ -190,10 +179,11 @@
              <button class = "continuar">Continuar</button>
                      <button class = "excluir">Cancelar minha conta</button>
             </div>
-            <div class = "voltar"><a class="voltar-login" href="login-correto.html"> </a></div>
+            <div class = "voltar"><a class="voltar-login" href="Mapa.html"> </a></div>
 	    </div>
 	</div>
 	</body>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript">
         var domCidade = document.querySelector('select.cidade')
         var domBairro = document.querySelector('select.bairro')
@@ -208,7 +198,7 @@
         var voltar = document.querySelector('div.voltar')
 
         voltar.addEventListener('click', evt => (
-            window.location.href = 'login-correto.html'
+            window.location.href = 'Mapa.html'
         ));
 
         async function buscar() {
@@ -216,38 +206,95 @@
             var request = await fetch('../api/contato/buscarUsuario.php')
             var response = await request.json()
             nome.innerHTML = response.nome;
-
-  
         }
 
         buscar()
 
         excluir.addEventListener('click', ev => {
-            var confirma=confirm("É mesmo?");
-
-            if (confirma == true) {
-
+            swal({
+              title: "É memo?",
+              text: "Não volta mais.",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
                 var requisicao = fetch("../api/contato/excluir.php", {
-                    method: "DELETE",
-                    body: ""
+                        method: "DELETE",
+                        body: ""
                 })
-            }
+                swal({
+                   title: '',
+                   text: "Feito!",
+                   content: true,
+                   icon: "success",
+                   timer: 2100,
+                   buttons: false
+                });
+
+                setTimeout(function(){
+                            window.location.href = "login-correto.html"       
+                        }, 2600);
+              } else {
+                    swal({
+                       title: '',
+                       text: "Fique aqui.",
+                       content: true,
+                       icon: "success",
+                       timer: 2100,
+                       buttons: false
+                    });
+              }
+            });  
         })
 
         continuar.addEventListener('click', async evt => {
             var domDados = document.querySelectorAll('[name]')
             var dados = {}
+
             domDados.forEach(el => dados[ el.name ] = el.value)
 
-            var requisicao = await fetch("../api/contato/atualizar.php", {
-                method: "POST",
-                body: JSON.stringify(dados)
-            })
+            if (dados['senha'] == dados['repetirSenhaNova'] && dados['senhaAntiga'] == dados['repetirSenhaAntiga'])  {
 
-            var resposta = await requisicao.text()
+                var requisicao = await fetch("../api/contato/atualizar.php", {
+                    method: "POST",
+                    body: JSON.stringify(dados)
+                })
 
-            alert(resposta)
-            window.location.href = 'Mapa.html';
+                var resposta = await requisicao.text()
+
+                if (resposta != "erro") {
+
+                    swal({
+                       title: '',
+                       text: "Feito!",
+                       content: true,
+                       icon: "success",
+                       timer: 2100,
+                       buttons: false
+                    });
+                } else {
+                        swal({
+                           title: '',
+                           text: "Senha incorreta",
+                           content: true,
+                           icon: "error",
+                           timer: 2100,
+                           buttons: false
+                        });
+                }
+
+            } else {
+                    swal({
+                       title: '',
+                       text: "Repita os dados corretamente",
+                       content: true,
+                       icon: "error",
+                       timer: 2100,
+                       buttons: false
+                    });
+            }
         });
 
         async function buscar() {
@@ -255,6 +302,7 @@
             var request = await fetch('../api/cidade/buscar.php')
             var response = await request.json()
         
+            domCidade.innerHTML = "<option>Selecione uma cidade</option>"
             domCidade.innerHTML = "<option>Selecione uma cidade</option>"
 
             response.forEach(cidade => {
@@ -275,7 +323,5 @@
 
         buscar()
 
-
-        
     </script>
 </html>

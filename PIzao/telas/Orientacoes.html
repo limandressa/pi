@@ -1,120 +1,119 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <title>Orientacoes</title>
   <style>
 
-    body {
-      font-family: Roboto, sans-serif;
-      margin: 0px;  
-      border: 0 none; 
-    }
+      body {
+        font-family: Roboto, sans-serif;
+        margin: 0px;  
+        border: 0 none; 
+      }
   
-    .container {
-     width: 100%;
-     display: flex;
-     flex-direction: row;
-     justify-content: center;
-     align-items: center;
-   } 
+      .container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      } 
   
-   .voltar {
-     background-color: white;
-     position: fixed;
-     bottom: 0%;
-     height: 10%;
-     width: 100%;
-     float:center;
-     height: 7vh;
-     color: #0B6138;
-     font-size: 17px;
-     border: none;
-     cursor: pointer;
-   }
-  
-   .topo {
-    background-color: #0B6138;
-    text-align: center;
-    color: white;
-    font-size: 17px;
-    font-weight: 500;
-    position: fixed;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    width: 100%;
-    height: 11vh;
-    margin-top: 0vh;
-    top: 0%;
-  }  
-  
-  .conteudo {  
-    color:#0B6138;
-    width: 88%;
-    margin-top: 13vh;
-    display:flex;
-    flex-wrap: wrap; 
-    white-space: normal
-  }
-  
-  a {
-    font-weight: 600;
-  }
-  
-  li, b, a {
-    font-size: 15px;
-  
-  }
-  
-  p {
-    text-align: justify;
-    text-indent: 4em;
-    font-size: 15px;
-  }
-  
-  li {
-    text-indent: 2em;
-    text-align: left;
-  }
-  
-  #menu li {
-    text-decoration: none;
-  }
-  
-  a:link {
-    text-decoration: none;
-  }
-  
-  .nesse {
-    color: black;
-    font-size: 15px;
-  }
+      .voltar {
+        position: fixed;
+        background-image: url('ibagens/left-arrow.png');
+        background-repeat: no-repeat;
+        background-size: 100%;
+        height: 7%;
+        width: 8%;
+        float: center;
+        display: block;
+        border:none;
+        bottom: 0px;
+        left: 45%;
+      }
 
-</style>
+      .lista {  
+        overflow: scroll;
+        margin-top: 14vh;  
+        display:flex;
+        justify-content: center;
+        flex-wrap: wrap; 
+        width: 100%;
+        height: 77vh;
+        background-color: white;
+      }
+  
+      .ori {
+        color: #0B6138;
+        margin-top: 1vh;
+        display: flex;
+        justify-content: left;
+        min-height: 6vh;
+        border-bottom: 1px solid black;
+        width: 90%;
+      }
+  
+      .topo {
+        position: fixed;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        width: 100%;
+        height: 13%;
+        top: 0%;
+      }
+  
+      div.titulo { 
+        display: flex;
+        align-items: center;
+        text-align-last: center;
+        justify-content: center;
+        text-align: center;
+        vertical-align: center;
+        color: white;
+        width: 100%;
+        height: 100%;
+        font-size: 30px;
+        background-color: #0B6138;
+      }
+  
+      div.titulo {
+        font-size: 22px;
+      } 
+
+  </style>
 </head>
 <body>
-  <div class = "container">
-    <div class = "topo">O QUE DEVO FAZER EM CASOS DE PERIGO?</div>
-    <div class="conteudo">
-      <p><b> Segundo a <a>Defesa Civíl</a>, há vários procedimentos que podem ser realizados em casos de ocorrência de enchentes ou alagamentos. Acesse-os completamente <a class="nesse" href="http://www.defesacivil.pr.gov.br/modules/conteudo/conteudo.php?conteudo=325">neste link.</a> Lembre-se de acionar as autoridades.</b></p>
-     
-        <li id="menu"> <b>Defesa Civil de Balneário Camboriú: 199</b></li>
-        <li> <b>Defesa Civil de Camboriú: (47) 3365-0198</b></li>
-        <li> <b>Defesa Civil de Itajaí: (47) 3341-6199 </b></li>
-        <li> <b>Se, por algum motivo, ficar ilhado, contate a <b>Defesa Civil</b> ou o <b>Corpo de Bombeiros.</b></b></li>
-        <li> <b>Proteja-se em locais elevados até a água baixar.</b></li>
-        <li> <b> Tente estacionar em regiões mais altas. Se o nível da água atingir o batente inferior da porta é hora de abandonar o veículo. Com água acima das rodas, o carro começa a boiar e fica sem controle. Se alcançar as janelas, ocorre o bloqueio das portas, impedindo a saída e dificultando o resgate.</b></li>
-        
-        <li> Orientação n</li>
-
-
-    </div>          <button class="voltar"><a href="Mapa.html">◄ voltar</a></button>   
-
+    <div class = "container">
+      <div class = "topo">
+        <div class = "titulo"> O QUE DEVO FAZER EM CASO DE PERIGO?
+        </div>
+      </div>
+    <div class="lista">
+      <div class="ori"><b> Segundo a <a>Defesa Civíl</a>, há vários procedimentos que podem ser realizados em casos de ocorrência de enchentes ou alagamentos. Acesse-os completamente <a class="nesse" href="http://www.defesacivil.pr.gov.br/modules/conteudo/conteudo.php?conteudo=325">neste link.</a> Lembre-se de acionar as autoridades.</b></div>
+      <div class="ori"><b>Defesa Civil de Balneário Camboriú: 199</b></div>
+      <div class="ori"><b>Defesa Civil de Camboriú: (47) 3365-0198</b></div>
+      <div class="ori"><b>Defesa Civil de Itajaí: (47) 3341-6199</b></div>
+      <div class="ori"><b>Se, por algum motivo, ficar ilhado, contate a Defesa Civil ou o Corpo de Bombeiros.</b></div>
+      <div class="ori"><b>Proteja-se em locais elevados até a água baixar.</b></div>
+      <div class="ori"><b> Tente estacionar em regiões mais altas. Se o nível da água atingir o batente inferior da porta é hora de abandonar o veículo. Com água acima das rodas, o carro começa a boiar e fica sem controle. Se alcançar as janelas, ocorre o bloqueio das portas, impedindo a saída e dificultando o resgate.</b></div>
+    </div>
+    <div class="voltar"></div>  
   </div>
-</body>
+  <script type="text/javascript">
+    
+    voltar = document.querySelector('div.voltar')
+
+    voltar.addEventListener('click', evt => (
+        window.location.href = 'Mapa.html'
+    ));
+
+  </script>
+</body>  
+    
 </html>
 

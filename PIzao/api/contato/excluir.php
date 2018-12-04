@@ -17,14 +17,7 @@ try {
 	]);
 
 	echo "foi";
-
- //    $md2 = $bd->prepare("UPDATE bairro set valor = :valor where idbairro= :idbairro");
-	// $md2->execute([
-	// 	'valor' => $_GET['op'],
-	// 	'idbairro' => $_GET['id']
-	// ]);
-
-	// header('Location: http://localhost/PIzao/Telas/Mapa.html');
+	
 } catch(Exception $e) {
     die("erro com o servidor: " . $e->getMessage());
 }

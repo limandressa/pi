@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <title>Lista</title>
+  <title>Lista User</title>
   <style>
 
       body {
@@ -34,7 +34,7 @@
       }
 
       .lista {  
-        margin-top: 8vh;  
+        margin-top: 10vh;  
         display:flex;
         justify-content: center;
         flex-wrap: wrap; 
@@ -58,11 +58,13 @@
         align-items: center;
         flex-wrap: wrap;
         width: 100%;
-        height: 8%;
+        height: 10%;
         top: 0%;
       }
   
-      select { 
+      .rel { 
+        display: flex;
+        align-items: center;
         text-align-last: center;
         justify-content: center;
         text-align: center;
@@ -78,7 +80,7 @@
         font-size: 17px;
       }
   
-      option, select{
+      option, .rel{
         font-size: 22px;
       }
   
@@ -87,7 +89,7 @@
       }  
   
       th, td {
-        width: 50%;
+        width: 33%;
       } 
 
   </style>
@@ -95,8 +97,8 @@
 <body>
     <div class = "container">
       <div class = "topo">
-        <select class = "cidade">
-        </select>
+        <div class = "rel"> SEU RELATÓRIO
+        </div>
       </div>
     <div class="lista">
       <table class="w3-table-all w3-centered">
@@ -107,50 +109,26 @@
   </div>
 </body>  
     <script type="text/javascript">
-        var domCidade = document.querySelector('select.cidade')
-        var domBairro = document.querySelector('table.w3-table-all')
-        var domCabecalho = document.querySelector('tr.cabecalho')
+        var rels = document.querySelector('table.w3-table-all')
         var voltar = document.querySelector('div.voltar')
+        var aux = "";
 
         voltar.addEventListener('click', evt => (
-            window.location.href = 'Mapa.html'
+            window.location.href = 'Usuario.html'
         ));
 
         async function buscar() {
 
-            var request = await fetch('../api/cidade/buscar.php')
+            var request = await fetch('../api/contato/buscarRel.php')
+            rels.innerHTML += "<tr><th>Data</th><th>Bairro</th><th>Valor</th></tr>"
             var response = await request.json()
-            
-            domCidade.innerHTML = "<option>Selecione uma cidade</option>"
-            response.forEach(cidade => {
-                // console.log(cidade)
-                domCidade.innerHTML += "<option value='"+ cidade.idcidade +"'>"+cidade.nome+"</option>"
+            response.forEach(rel => {
+
+              if (rel.valor == 1) {aux =  "Perigo"} else {aux = "Seguro"}
+
+                rels.innerHTML += "<tr><td>"+ rel.data.substring(8,10) + "/" +rel.data.substring(5,7)+ "/" + rel.data.substring(0,4) +"</td><td>" + rel.nome + "</td><td>"+ aux +"</td></tr>"
             })
         }
-
-        domCidade.addEventListener('change', async evt => {
-            console.log(domCidade.value)
-            domBairro.innerHTML = ""
-
-            var request = await fetch('../api/bairro/porCidade.php?idcidade='+domCidade.value)
-            domBairro.innerHTML += "<tr><th>Bairro</th><th>Condição</th></tr>"
-            var aux = "Seguro";
-            var response = await request.json()
-            //domBairro.innerHTML = "<option>Selecione um bairro</option>"
-            response.forEach(bairro => {
-
-                if (bairro.perigo > bairro.seguro && bairro.perigo > (bairro.quantidadeU * 0.2)) {
-                  aux = "Em perigo"
-                } else { aux = "Seguro" }
-                // console.log(cidade)
-                domBairro.innerHTML += "<tr data-nome='"+bairro.nome+"' data-value='"+ bairro.idbairro +"'><td>"+ bairro.nome +"</td><td>" + aux + "</td></tr>"
-            })
-        })
-
-        domBairro.addEventListener('click', event => {
-          let target = event.target.closest("tr")
-           window.location.href = "Bairro.html?nome="+target.dataset.nome+"&idbairro="+target.dataset.value;
-        })
 
         buscar()
 

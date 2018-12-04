@@ -85,6 +85,19 @@
   font-size: 14px;
   }
 
+  .rec {
+    position: relative;
+    left: 45%;
+    background-image: url('ibagens/reload.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    height: 100%;
+    width: 10%
+  }
+
+  .arec {
+    height: 6vh !important;
+  }
   /*-------------------------------------------------------*/
   #map {
     height: 90vh;
@@ -102,6 +115,7 @@
   }
 
 
+
 </style>
 </head>
 <body>
@@ -112,6 +126,7 @@
       <a href="Orientacoes.html">ORIENTAÇÕES</a>
       <a href="usuario.html">USUÁRIO</a>
       <a class="sair">SAIR</a>
+      <a class="arec"><div class="rec"></div></a>
     </div>
   </div>
   <div id="map"></div>
@@ -123,13 +138,10 @@
   <script>
 
     // ------------------------------------------------------------------------------
-    /* When the user clicks on the button, 
-    toggle between hiding and showing the dropdown content */
     function myFunction() {
       document.getElementById("myDropdown").classList.toggle("show");
     }
 
-    // Close the dropdown if the user clicks outside of it
     window.onclick = function(event) {
       if (!event.target.matches('.dropbtn')) {
 
@@ -148,6 +160,7 @@
   var latRef = 0.0;
   var nomeBairro = ""; 
   var sair = document.querySelector("a.sair");
+  var rel = document.querySelector("div.rec");
   
   sair.addEventListener('click', ev => {
       var req = fetch(`../api/login-correto.php?user=&password=$`);
@@ -165,20 +178,25 @@
       disableDefaultUI: true,
       center: uluru
     });
+
+      rel.addEventListener('click', ev => {
+      map.setCenter({lat: parseFloat(response.latitude), lng: parseFloat(response.longitude)});
+      map.setZoom(14); 
+      })
   
     var pinIcon2 = new google.maps.MarkerImage(
-      "marcadorverde.png", //
-      null, /* size is determined at runtime */
-      null, /* origin is 0,0 */
-      new google.maps.Point(25,50), /* anchor is bottom center of the scaled image */
+      "ibagens/marcadorverde.png", //
+      null, 
+      null, 
+      new google.maps.Point(25,50), 
       new google.maps.Size(60, 58)
       );
   
     var pinIcon = new google.maps.MarkerImage(
-      "marcadorvermelho.png",
-      null, /* size is determined at runtime */
-      null, /* origin is 0,0 */
-      new google.maps.Point(25,50), /* anchor is bottom center of the scaled image */
+      "ibagens/marcadorvermelho.png",
+      null, 
+      null, 
+      new google.maps.Point(25,50), 
       new google.maps.Size(60, 58)
       );
   
@@ -192,10 +210,14 @@
       var response = await request.json()
   
       response.forEach(marcador => {
-          // console.log(marcador)
-  
-          if (marcador.perigo > marcador.seguro && marcador.perigo > (marcador.quantidadeU * 0.2)) {
+          //console.log(marcador)
+          if (marcador.perigo > marcador.seguro && marcador.perigo > (marcador.quantidadeU/5)) {
             aux = pinIcon;  
+
+            if (marcador.quantidadeU < 20) {
+              aux = pinIcon2;
+            }
+            
           } else {
             aux = pinIcon2;
           }
@@ -225,8 +247,6 @@
                 nomeBairro: marcador.nome,
                 labelInBackground: true
             });
-
-
 
           //-----
           i++; 

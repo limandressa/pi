@@ -11,8 +11,6 @@ if (!$_SESSION['login']) die("não está logado");
  
  	$bd = include "../pdo.php";
 
- 	/**/
-
  	$mdTeste2 = $bd->prepare("SELECT count(nome) as qtd from usuario where bairro_idbairro = :bairro_idbairro and email = :email");
 	$mdTeste2->execute([
 		'email' => $_SESSION['login'],

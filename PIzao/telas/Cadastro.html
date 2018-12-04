@@ -117,7 +117,7 @@
     }
 
     div.voltar {
-        background-image: url('left-arrow.png');
+        background-image: url('ibagens/left-arrow.png');
         background-repeat: no-repeat;
         background-size: 100%;
         height: 7%;
@@ -200,35 +200,6 @@
             window.location.href = 'login-correto.html'
         ));
 
-                    //swal({
-                    //    title: "Deleted!",
-                    //    text: "Your row has been deleted.",
-                    //    type: "success",
-                    //    timer: 2000,
-                    //    showConfirmButton: false
-                    //});
-
-                    //swal({
-                    //    title: 'Auto close alert!',
-                    //    text: 'I will close in 2 seconds.',
-                    //    timer: 1500,
-                    //    buttons: false
-                    //})
-
-        function TestSweetAlert(){
-            swal({
-               title: 'Titulo',
-               text: "Mensagem",
-               content: true,
-               icon: "success",
-               className: 'swal-wide',
-               timer: 2100,
-               buttons: false
-           });
-        };
-
-        $('#testeSWAL').on("click",TestSweetAlert);
-
         domBtContinuar.addEventListener('click', async evt => {
      
             var domDados = document.querySelectorAll('[name]')
@@ -248,22 +219,38 @@
 
             }  else {
 
-                    //alert(dados['senha'].lenght)
-
                     var requisicao = await fetch("../api/contato/inserir.php", {
                         method: "PUT",
                         body: JSON.stringify(dados)
                     })
     
                     var resposta = await requisicao.text()
-    
-                    //swal("Inserido", "success");
 
+                    if (resposta == "inserido") {
+    
+                        swal({
+                            title: '',
+                            text: "Feito!",
+                            content: true,
+                            icon: "success",
+                            timer: 2100,
+                            buttons: false
+                        }); 
 
-    
-                    //window.location.href = 'Mapa.html'
-    
-                    //alert(resposta)           
+                        setTimeout(function(){
+                            window.location.href = "login-correto.html"       
+                        }, 2600);
+
+                    } else {
+                            swal({
+                                title: '',
+                                text: "Este email já está em uso",
+                                content: true,
+                                icon: "error",
+                                timer: 2100,
+                                buttons: false
+                            });  
+                    }
             }
         });
 
@@ -288,7 +275,6 @@
             domBairro.innerHTML = "<option>Selecione um bairro</option>"
 
             response.forEach(bairro => {
-                // console.log(cidade)
                 domBairro.innerHTML += "<option value='"+ bairro.idbairro +"'>"+bairro.nome+"</option>"
             })
         })
